@@ -1,0 +1,81 @@
+/* General */
+QWidget {
+    background-color: #2b2b2b;
+    color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    font-size: 12pt;
+}
+
+/* Botones */
+QPushButton {
+    background-color: #3c3f41;
+    border: 1px solid #5c5c5c;
+    border-radius: 4px;
+    padding: 6px;
+    color: #ffffff;
+}
+QPushButton:hover {
+    background-color: #505050;
+}
+QPushButton:pressed {
+    background-color: #606060;
+}
+
+/* ComboBox */
+QComboBox {
+    background-color: #3c3f41;
+    border: 1px solid #5c5c5c;
+    padding: 4px;
+    color: #ffffff;
+}
+
+/* Barra de Progreso */
+QProgressBar {
+    text-align: center;
+    color: #ffffff;
+    background-color: #3c3f41;
+    border: 1px solid #5c5c5c;
+    border-radius: 4px;
+}
+QProgressBar::chunk {
+    background-color: #76c7c0;
+}
+
+/* Ventanas de Mensajes */
+QMessageBox {
+    background-color: #2b2b2b;
+    color: #f0f0f0;
+    border: 1px solid #5c5c5c;
+}
+
+/* Menú */
+QMenuBar {
+    background-color: #3c3f41;
+    color: #ffffff;
+}
+QMenuBar::item:selected {
+    background-color: #505050;
+}
+
+QMenu {
+    background-color: #3c3f41;
+    color: #f0f0f0;
+    border: 1px solid #5c5c5c;
+}
+QMenu::item:selected {
+    background-color: #505050;
+}
+
+/* Tablas */
+QTableWidget {
+    background-color: #2b2b2b;
+    gridline-color: #5c5c5c;
+    color: #f0f0f0;
+    border: 1px solid #5c5c5c;
+}
+QHeaderView::section {
+    background-color: #3c3f41;
+    color: #ffffff;
+    padding: 4px;
+    border: 1px solid #5c5c5c;
+}

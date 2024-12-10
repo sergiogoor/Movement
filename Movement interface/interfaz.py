@@ -304,13 +304,14 @@ class PlotWindow(QMainWindow):
         self.ser.close()
         event.accept()
 
+def aplicar_estilo(app):
+    with open("style.qss", "r") as estilo:
+        app.setStyleSheet(estilo.read())
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-
+    aplicar_estilo(app)  # Aplicar el estilo
     config_window = ConfigWindow()
     config_window.config_ready.connect(lambda config: PlotWindow(config).show())
     config_window.show()
-    print("sal")
     sys.exit(app.exec_())
-    print("saliendo")
-    exit()
