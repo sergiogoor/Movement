@@ -1,19 +1,60 @@
-import sys
-import queue
+import tkinter as tk
+from tkinter import ttk
 import threading
-import serial
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PyQt5 import uic
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QAction, QComboBox, QCheckBox, QPushButton)
-from PyQt5.QtCore import pyqtSignal
-from scipy.signal import spectrogram
-import csv
-from datetime import datetime
-from PyQt5.QtGui import QIcon  # Importar QIcon para iconos
+import time
+import os
+
+# Función que simula la importación de módulos
+def importar_modulos():
+    global sys, queue, threading, serial, np, matplotlib
+    global plt, animation, FigureCanvas, uic, QApplication, QMainWindow
+    global QVBoxLayout, QWidget, QFileDialog, QMessageBox, QAction, QComboBox
+    global QCheckBox, QPushButton, pyqtSignal, spectrogram, csv, datetime, QIcon
+
+    import sys
+    import queue
+    import threading
+    import serial
+    import numpy as np
+    import matplotlib
+    import matplotlib.pyplot as plt
+    import matplotlib.animation as animation
+    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+    from PyQt5 import uic
+    from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, QFileDialog, QMessageBox, QAction, QComboBox, QCheckBox, QPushButton)
+    from PyQt5.QtCore import pyqtSignal
+    from scipy.signal import spectrogram
+    import csv
+    from datetime import datetime
+    from PyQt5.QtGui import QIcon
+
+    print("Módulos importados")
+
+    # Programar el cierre de la ventana después de la importación
+    root.after(1, root.destroy)
+
+def mostrar_progreso():
+    global root
+    root = tk.Tk()
+    root.title("Movement")
+    root.geometry("300x100")
+    root.iconbitmap('movement.ico')
+    label = tk.Label(root, text="Cargando módulos, por favor espere...", padx=20, pady=20)
+    label.pack()
+
+    progress = ttk.Progressbar(root, orient="horizontal", length=250, mode="indeterminate")
+    progress.pack(pady=10)
+    progress.start()
+
+    # Ejecuta la función de importación en un hilo separado
+    threading.Thread(target=importar_modulos, daemon=True).start()
+
+    root.mainloop()
+
+mostrar_progreso()
+
+
+
 
 # Función para escanear puertos seriales disponibles
 def scan_ports():
@@ -162,8 +203,7 @@ class PlotWindow(QMainWindow):
             self.csv_writer.writerow(['Time', 'X', 'Y', 'Z'])
             print(f"Abriendo archivo: {self.csv_filename}")
 
-            self.csv_timer = threading.Timer(600, self.update_csv_file)
-            self.csv_timer.start()
+            self.start_csv_timer()
 
     def init_serial(self):
         self.baud_rate = 115200
@@ -177,14 +217,25 @@ class PlotWindow(QMainWindow):
         timestamp = datetime.now().strftime('%Y-%m-%d_%H.%M.%S')
         return f'{self.config.get("ruta_guardado", ".")}/data_{timestamp}.csv'
 
+    def start_csv_timer(self):
+        self.csv_timer = threading.Timer(600, self.update_csv_file)  # Cambia el archivo cada 10 minutos
+        self.csv_timer.start()
+
     def update_csv_file(self):
-        if self.csv_file:
+        # Cerrar el archivo actual si está abierto
+        if hasattr(self, 'csv_file') and not self.csv_file.closed:
             self.csv_file.close()
+
+        # Abrir un nuevo archivo
         self.csv_filename = self.get_csv_filename()
         self.csv_file = open(self.csv_filename, mode='a', newline='')
         self.csv_writer = csv.writer(self.csv_file, delimiter=';')
         self.csv_writer.writerow(['Time', 'X', 'Y', 'Z'])
         print(f"Abriendo nuevo archivo: {self.csv_filename}")
+
+        # Reiniciar el temporizador
+        self.start_csv_timer()
+
 
     def read_serial(self):
         while True:
@@ -208,8 +259,15 @@ class PlotWindow(QMainWindow):
             self.time = np.append(self.time[1:], self.time[-1] + 1/self.fs)
 
             if self.guardar_datos:
-                self.csv_writer.writerow([get_unique_microseconds(), value_x, value_y, value_z])
+                try:
+                    if hasattr(self, 'csv_file') and not self.csv_file.closed:
+                        self.csv_writer.writerow([get_unique_microseconds(), value_x, value_y, value_z])
+                except ValueError as e:
+                    print(f"Error al escribir en el archivo CSV: {e}")
+                except Exception as e:
+                    print(f"Error inesperado al escribir en el archivo CSV: {e}")
 
+        # Código para actualizar gráficos
         for i, data in enumerate([self.data_x, self.data_y, self.data_z]):
             self.lines[i].set_xdata(self.time)
             self.lines[i].set_ydata(data)
@@ -252,5 +310,7 @@ if __name__ == "__main__":
     config_window = ConfigWindow()
     config_window.config_ready.connect(lambda config: PlotWindow(config).show())
     config_window.show()
-
+    print("sal")
     sys.exit(app.exec_())
+    print("saliendo")
+    exit()
