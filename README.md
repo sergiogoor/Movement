@@ -1,3 +1,5 @@
+![Ícono](./Movement-interface/movement.ico)
+
 Proyecto Sismógrafo Open-Source para Entornos Educativos
 
 📊 Resumen del Proyecto
