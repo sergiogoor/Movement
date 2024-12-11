@@ -32,17 +32,31 @@ Estructura: Diseño 3D impreso, con tornillos niveladores y burbuja de nivel par
 
 Software
 
-Lenguaje: C++
+Lenguajes: C++ para el microcontrolador y Python para la visualización.
 
-Plataforma: Arduino IDE
+Plataformas: Arduino IDE para la ESP8266 y Python para la interfaz gráfica.
 
-Funcionalidades:
+Programa en C++ para la ESP8266
 
-Captura y almacenamiento de datos sísmicos.
+El microcontrolador ESP8266 ejecuta un programa en C++ que:
 
-Filtrado y análisis de ruido.
+Captura datos del acelerómetro MPU6050.
 
-Visualización gráfica en tiempo real.
+Filtra los datos para eliminar ruido.
+
+Código completo en C++
+
+Programa en Python para Visualización
+
+El software en Python permite:
+
+Recibir los datos transmitidos por la ESP8266.
+
+Procesar y graficar los datos en tiempo real.
+
+Exportar los datos para análisis posteriores.
+
+Código completo en Python
 
 🔍 Metodología
 
@@ -72,7 +86,7 @@ Requisitos
 
 Hardware: ESP8266, MPU6050, cables, impresora 3D.
 
-Software: Arduino IDE, Cura (para impresión 3D).
+Software: Arduino IDE, Python 3.8+, librerías matplotlib y numpy.
 
 Instalación
 
@@ -80,17 +94,23 @@ Descargar el Código: Repositorio en GitHub.
 
 Configurar el Hardware: Ensamble las piezas según la guía disponible.
 
-Cargar el Software: Utilice Arduino IDE para cargar el código al ESP8266.
+Cargar el Software:
+
+Use Arduino IDE para cargar el código en C++ a la ESP8266.
+
+Ejecute el programa en Python para visualizar los datos.
 
 Ejecutar Pruebas: Conecte el dispositivo y observe los datos capturados en tiempo real.
 
 📖 Documentación Adicional
 
-Modelos 3D: Descargar STL.
+[Modelos 3D: Descargar STL.](./STL-seismograph-parts)
 
-Código Fuente: Ver Archivo.
+[Código Fuente en C++: Ver Archivo.](./Seismograph-code)
 
-Manual de Usuario: Guía Completa.
+[Código Fuente en Python: Ver Archivo.](./Movement-interface/)
+
+[Manual de Usuario: Guía Completa.](./Manual%20de%20uso%20Sismómetro%20Movement%20V1.pdf)
 
 💬 Contacto
 
@@ -101,3 +121,4 @@ Alaiur Beitia Pérez: alai.beita.p@gmail.com
 Sergio Gómez Orts: sergiogomezorts7@gmail.com
 
 © 2024, Proyecto Sismógrafo Open-Source para Entornos Educativos. Distribuido bajo la licencia MIT.
+
