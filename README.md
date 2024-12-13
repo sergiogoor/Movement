@@ -120,5 +120,4 @@ Alaiur Beitia Pérez: alai.beita.p@gmail.com
 
 Sergio Gómez Orts: sergiogomezorts7@gmail.com
 
-© 2024, Proyecto Sismógrafo Open-Source para Entornos Educativos. Distribuido bajo la licencia MIT.
 
