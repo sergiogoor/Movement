@@ -1,0 +1,18 @@
+{
+    "en": {
+        "loading_message": "Loading modules, please wait...",
+        "warning_message": "The seismograph is not connected, please connect it.",
+        "select_directory": "Select the folder to save the data",
+        "recalibrate": "Recalibrate",
+        "options": "Options",
+        "warning": "Warning"
+    },
+    "es": {
+        "loading_message": "Cargando módulos, por favor espere...",
+        "warning_message": "El sismógrafo no está conectado, por favor conéctelo.",
+        "select_directory": "Selecciona la carpeta para guardar los datos",
+        "recalibrate": "Recalibrar",
+        "options": "Opciones",
+        "warning": "Advertencia"
+    }
+}
