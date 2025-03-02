@@ -4,7 +4,7 @@ import threading
 import time
 import os
 
-# Función que simula la importación de módulos
+# Función para la importación de módulos
 def importar_modulos():
     global sys, queue, threading, serial, np, matplotlib
     global plt, animation, FigureCanvas, uic, QApplication, QMainWindow
