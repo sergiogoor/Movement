@@ -30,7 +30,7 @@ def importar_modulos():
 
     print("Módulos importados")
 
-    # Programar el cierre de la ventana después de la importación
+    # Programar el cierre de la ventana después de la importación de las librerías
     root.after(1, root.destroy)
 
 def mostrar_progreso():
@@ -46,7 +46,7 @@ def mostrar_progreso():
     progress.pack(pady=10)
     progress.start()
 
-    # Ejecuta la función de importación en un hilo separado
+    # Ejecuta la función de importación en un hilo separado al principal
     threading.Thread(target=importar_modulos, daemon=True).start()
 
     root.mainloop()
