@@ -4,7 +4,7 @@ import threading
 import time
 import os
 
-# Función que simula la importación de módulos
+# Función para la importación de módulos
 def importar_modulos():
     global sys, queue, threading, serial, np, matplotlib
     global plt, animation, FigureCanvas, uic, QApplication, QMainWindow
@@ -30,7 +30,7 @@ def importar_modulos():
 
     print("Módulos importados")
 
-    # Programar el cierre de la ventana después de la importación
+    # Programar el cierre de la ventana después de la importación de las librerías
     root.after(1, root.destroy)
 
 def mostrar_progreso():
@@ -46,7 +46,7 @@ def mostrar_progreso():
     progress.pack(pady=10)
     progress.start()
 
-    # Ejecuta la función de importación en un hilo separado
+    # Ejecuta la función de importación en un hilo separado al principal
     threading.Thread(target=importar_modulos, daemon=True).start()
 
     root.mainloop()
@@ -131,7 +131,8 @@ class PlotWindow(QMainWindow):
         self.setWindowTitle("Movement")
         self.showMaximized()  # Aumentar el tamaño de la ventana
         self.setWindowIcon(QIcon('movement.ico'))
-
+        self.running = True
+        self.ser=None
         # Crear el widget de Matplotlib
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -207,7 +208,20 @@ class PlotWindow(QMainWindow):
 
     def init_serial(self):
         self.baud_rate = 115200
-        self.ser = serial.Serial(self.serial_port, self.baud_rate)
+        try:
+
+            self.ser = serial.Serial(self.serial_port, self.baud_rate)
+        except:
+                try:
+                    print("Intentando liberar el puerto")
+                    ser = serial.Serial(self.serial_port)
+                    ser.close()
+                    print(f"Puerto {self.serial_port} cerrado")
+                    self.ser = serial.Serial(self.serial_port, self.baud_rate)
+                except:
+                    print("No se ha conseguido liberar")
+                    pass
+        self.running = True  # Asegurar que la bandera esté activa
 
         self.serial_thread = threading.Thread(target=self.read_serial)
         self.serial_thread.daemon = True
@@ -238,7 +252,7 @@ class PlotWindow(QMainWindow):
 
 
     def read_serial(self):
-        while True:
+        while self.running and self.ser.is_open:
             try:
                 line = self.ser.readline().strip().decode('utf-8')
                 value_x, value_y, value_z = map(float, line.split(' '))
@@ -301,7 +315,20 @@ class PlotWindow(QMainWindow):
         if self.guardar_datos:
             self.csv_timer.cancel()
             self.csv_file.close()
-        self.ser.close()
+
+        self.running = False
+
+        if self.ser and self.ser.is_open:
+            try:
+                self.ser.close()
+                print("Puerto serial cerrado correctamente")
+            except Exception as e:
+                print(f"Error al cerrar el puerto: {e}")
+
+        if self.serial_thread.is_alive():
+            print("*"*200)
+            self.serial_thread.join(timeout=1) 
+
         event.accept()
 
 def aplicar_estilo(app):
