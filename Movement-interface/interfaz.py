@@ -154,7 +154,7 @@ class PlotWindow(QMainWindow):
 
         # Inicialización de los datos
         self.fs = 450  # Frecuencia de muestreo (Hz)
-        self.window_size = 1800  # Número de muestras a mostrar
+        self.window_size = 1800  # Número de muestras a mostrar (1800)
         self.data_queue = queue.Queue()  # Cola para almacenar los datos recibidos
 
         self.data_x = np.zeros(self.window_size)
@@ -292,7 +292,7 @@ class PlotWindow(QMainWindow):
             ymax += 0.05 * y_range
 
             if y_range < 5000:
-                ymin, ymax = -2500, 2500
+                ymin, ymax = -1200, 1200  #-2500, 2500
 
             self.axes[i, 0].set_ylim(ymin, ymax)
             self.axes[i, 0].set_xlim(self.time[0], self.time[-1])
@@ -325,9 +325,8 @@ class PlotWindow(QMainWindow):
             except Exception as e:
                 print(f"Error al cerrar el puerto: {e}")
 
-        if self.serial_thread.is_alive():
-            print("*"*200)
-            self.serial_thread.join(timeout=1) 
+
+    
 
         event.accept()
 

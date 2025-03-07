@@ -22,7 +22,7 @@ void setup() {
   Serial.begin(115200);
   Wire.begin(4, 5); // SDA -> GPIO4, SCL -> GPIO5
   setupMPU6050();
-  delay(3000);
+  delay(2000);
   calibrateAccelerometer();
 }
 
@@ -63,7 +63,7 @@ void readAcceleration(int16_t &accX, int16_t &accY, int16_t &accZ) {
 }
 
 void calibrateAccelerometer(int samples) {
-  Serial.println("Calibrando el acelerómetro...");
+  //Serial.println("Calibrando el acelerómetro...");
   int32_t accXSum = 0;
   int32_t accYSum = 0;
   int32_t accZSum = 0;
@@ -80,13 +80,14 @@ void calibrateAccelerometer(int samples) {
   accXOffset = accXSum / samples;
   accYOffset = accYSum / samples;
   accZOffset = accZSum / samples;
-  
+  /*
   Serial.print("Calibración completa: Offsets -> X: ");
   Serial.print(accXOffset);
   Serial.print(", Y: ");
   Serial.print(accYOffset);
   Serial.print(", Z: ");
   Serial.println(accZOffset);
+  */
 }
 
 void readAndPrintAcceleration() {
