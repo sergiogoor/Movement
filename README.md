@@ -110,7 +110,7 @@ Ejecutar Pruebas: Conecte el dispositivo y observe los datos capturados en tiemp
 
 [Código Fuente en Python: Ver Archivo.](./Movement-interface/)
 
-[Manual de Usuario: Guía Completa.](./Manual%20de%20uso%20Sismómetro%20Movement%20V1.pdf)
+[Presentación de tesis.](./Diseño%2C%20Construcción%20e%20Implementación%20de%20un%20Sismógrafo%20Open-Source%20para%20Entornos%20Educativos.pdf)
 
 💬 Contacto
 
